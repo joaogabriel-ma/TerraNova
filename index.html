@@ -1,0 +1,682 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TerraNova — Protótipo</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&amp;family=Raleway:wght@400;500;600;700&amp;family=Open+Sans:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --green-900:#0d2b1e;
+  --green-800:#1B4332;
+  --green-700:#2D6A4F;
+  --green-600:#40916C;
+  --green-400:#52B788;
+  --green-200:#B7E4C7;
+  --green-100:#D8F3DC;
+  --green-50:#F0FBF4;
+  --gold:#B7900A;
+  --gold-light:#E9C46A;
+  --beige:#F4F1DE;
+  --gray:#3D405B;
+  --gray-light:#F8F9FA;
+  --white:#FFFFFF;
+}
+body{font-family:'Open Sans',sans-serif;color:var(--gray);background:#f0f0f0}
+h1,h2,h3,h4{font-family:'Playfair Display',serif}
+.btn-primary{background:var(--green-800);color:#fff;border:none;padding:12px 28px;border-radius:6px;font-family:'Raleway',sans-serif;font-weight:600;font-size:15px;cursor:pointer;transition:.2s}
+.btn-primary:hover{background:var(--green-700)}
+.btn-secondary{background:transparent;color:var(--green-800);border:2px solid var(--green-800);padding:10px 26px;border-radius:6px;font-family:'Raleway',sans-serif;font-weight:600;font-size:15px;cursor:pointer;transition:.2s}
+.btn-secondary:hover{background:var(--green-50)}
+.btn-gold{background:var(--gold);color:#fff;border:none;padding:12px 28px;border-radius:6px;font-family:'Raleway',sans-serif;font-weight:600;font-size:15px;cursor:pointer;transition:.2s}
+.btn-gold:hover{background:#9a7a08}
+.tag{display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-family:'Raleway',sans-serif;font-weight:600}
+.tag-green{background:var(--green-100);color:var(--green-800)}
+.tag-gold{background:#FFF3CD;color:#856404}
+
+/* NAV */
+nav{background:var(--green-800);padding:0 48px;display:flex;align-items:center;justify-content:space-between;height:68px;position:sticky;top:0;z-index:100}
+.logo{font-family:'Playfair Display',serif;font-size:26px;color:#fff;letter-spacing:1px}
+.logo span{color:var(--gold-light)}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{color:rgba(255,255,255,0.85);text-decoration:none;font-family:'Raleway',sans-serif;font-size:14px;font-weight:500;transition:.2s;cursor:pointer}
+.nav-links a:hover,.nav-links a.active{color:#fff}
+.nav-cta{background:var(--gold);color:#fff;padding:8px 22px;border-radius:5px;font-family:'Raleway',sans-serif;font-weight:600;font-size:14px;cursor:pointer;border:none;transition:.2s}
+.nav-cta:hover{background:#9a7a08}
+
+/* SCREENS */
+.screen{display:none;min-height:100vh}
+.screen.active{display:block}
+
+/* TABS */
+.screen-tabs{display:flex;background:#fff;border-bottom:1px solid #ddd;padding:0 48px;gap:0;flex-wrap:wrap}
+.screen-tab{padding:12px 22px;font-family:'Raleway',sans-serif;font-size:13px;font-weight:600;color:#666;cursor:pointer;border-bottom:3px solid transparent;transition:.2s;white-space:nowrap}
+.screen-tab:hover{color:var(--green-800)}
+.screen-tab.active{color:var(--green-800);border-bottom-color:var(--green-800)}
+
+/* HOME */
+.hero{background:linear-gradient(135deg,rgba(27,67,50,0.92) 0%,rgba(13,43,30,0.85) 100%),url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1400&q=80') center/cover;padding:90px 48px 80px;text-align:center;color:#fff}
+.hero h1{font-size:52px;margin-bottom:18px;line-height:1.2}
+.hero h1 span{color:var(--gold-light)}
+.hero p{font-size:18px;opacity:.88;margin-bottom:40px;max-width:580px;margin-left:auto;margin-right:auto;line-height:1.7}
+.search-bar{background:#fff;border-radius:10px;padding:8px;display:flex;gap:8px;max-width:700px;margin:0 auto 16px;box-shadow:0 8px 32px rgba(0,0,0,0.2)}
+.search-bar select,.search-bar input{flex:1;border:none;padding:10px 14px;font-family:'Open Sans',sans-serif;font-size:14px;border-radius:6px;outline:none;color:var(--gray);background:var(--gray-light)}
+.search-bar button{padding:12px 28px;white-space:nowrap}
+
+.section{padding:72px 48px}
+.section-title{font-size:34px;color:var(--green-800);margin-bottom:8px}
+.section-sub{color:#666;font-size:16px;margin-bottom:42px;font-family:'Open Sans',sans-serif}
+
+.cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.08);transition:.2s}
+.card:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(0,0,0,0.14)}
+.card-img{width:100%;height:210px;background:var(--green-200);display:flex;align-items:center;justify-content:center;font-size:60px;overflow:hidden}
+.card-img img{width:100%;height:100%;object-fit:cover}
+.card-body{padding:20px}
+.card-location{font-size:13px;color:#888;margin-bottom:6px;display:flex;align-items:center;gap:4px}
+.card-title{font-size:19px;color:var(--green-800);margin-bottom:8px;font-family:'Playfair Display',serif}
+.card-info{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:14px;border-top:1px solid #f0f0f0}
+.card-price{font-family:'Raleway',sans-serif;font-weight:700;font-size:20px;color:var(--gold)}
+.card-area{font-size:13px;color:#888}
+
+.benefits{background:var(--beige);display:grid;grid-template-columns:repeat(3,1fr);gap:32px;padding:72px 48px}
+.benefit{text-align:center;padding:32px 24px;background:#fff;border-radius:12px}
+.benefit-icon{width:64px;height:64px;background:var(--green-100);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:28px}
+.benefit h3{font-size:20px;color:var(--green-800);margin-bottom:10px}
+.benefit p{font-size:14px;line-height:1.7;color:#666}
+
+.testimonials{background:var(--green-800);padding:72px 48px;text-align:center}
+.testimonials .section-title{color:#fff}
+.testimonials .section-sub{color:rgba(255,255,255,.7)}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px}
+.testi-card{background:rgba(255,255,255,.1);border-radius:12px;padding:28px;text-align:left;color:#fff}
+.testi-card p{font-size:14px;line-height:1.8;opacity:.9;margin-bottom:18px;font-style:italic}
+.testi-author{display:flex;align-items:center;gap:12px}
+.testi-avatar{width:42px;height:42px;background:var(--green-400);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px}
+.testi-name{font-family:'Raleway',sans-serif;font-weight:600;font-size:14px}
+.testi-city{font-size:12px;opacity:.7}
+.stars{color:var(--gold-light);font-size:14px;margin-bottom:12px}
+
+/* CATALOG */
+.catalog-header{background:var(--green-800);padding:40px 48px;color:#fff}
+.catalog-header h2{font-size:34px;margin-bottom:8px}
+.filter-bar{background:#fff;padding:20px 48px;border-bottom:1px solid #eee;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.filter-bar select,.filter-bar input{padding:9px 14px;border:1px solid #ddd;border-radius:6px;font-size:14px;font-family:'Open Sans',sans-serif;color:var(--gray);outline:none}
+.filter-bar select:focus,.filter-bar input:focus{border-color:var(--green-600)}
+.catalog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;padding:40px 48px;background:var(--gray-light)}
+.pagination{padding:24px 48px;background:var(--gray-light);display:flex;justify-content:center;gap:8px}
+.page-btn{width:38px;height:38px;border:1px solid #ddd;background:#fff;border-radius:6px;cursor:pointer;font-family:'Raleway',sans-serif;font-size:14px;transition:.2s}
+.page-btn:hover,.page-btn.active{background:var(--green-800);color:#fff;border-color:var(--green-800)}
+
+/* DETAIL */
+.detail-layout{display:grid;grid-template-columns:1fr 360px;gap:32px;padding:40px 48px;background:var(--gray-light)}
+.detail-main{}
+.gallery{border-radius:12px;overflow:hidden;margin-bottom:24px}
+.gallery-main{width:100%;height:380px;background:var(--green-200);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.gallery-main img{width:100%;height:100%;object-fit:cover}
+.gallery-thumbs{display:flex;gap:10px;margin-top:10px}
+.thumb{width:80px;height:60px;border-radius:6px;overflow:hidden;cursor:pointer;border:2px solid transparent}
+.thumb:first-child{border-color:var(--green-600)}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.detail-card{background:#fff;border-radius:12px;padding:28px;margin-bottom:20px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.detail-card h3{font-size:22px;color:var(--green-800);margin-bottom:18px}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.detail-item{padding:12px 16px;background:var(--gray-light);border-radius:8px}
+.detail-item label{font-size:12px;color:#888;display:block;margin-bottom:4px}
+.detail-item span{font-size:14px;font-weight:500;color:var(--gray)}
+.simulator{background:#fff;border-radius:12px;padding:28px;box-shadow:0 2px 12px rgba(0,0,0,.06);margin-bottom:20px}
+.simulator h3{font-size:20px;color:var(--green-800);margin-bottom:18px}
+.sim-input{margin-bottom:16px}
+.sim-input label{font-size:13px;color:#666;display:block;margin-bottom:6px}
+.sim-input input{width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:6px;font-size:14px;font-family:'Open Sans',sans-serif}
+.sim-result{background:var(--green-50);border-radius:8px;padding:16px;text-align:center;border:1px solid var(--green-200)}
+.sim-result .value{font-size:28px;font-weight:700;color:var(--green-800);font-family:'Playfair Display',serif}
+.sim-result small{font-size:12px;color:#666}
+.sidebar-card{background:#fff;border-radius:12px;padding:28px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.sidebar-card h3{font-size:18px;color:var(--green-800);margin-bottom:18px;font-family:'Playfair Display',serif}
+.sidebar-price{font-size:36px;font-weight:700;color:var(--gold);font-family:'Playfair Display',serif;margin-bottom:6px}
+.form-group{margin-bottom:14px}
+.form-group label{font-size:13px;color:#666;display:block;margin-bottom:5px}
+.form-group input,.form-group textarea{width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:6px;font-size:14px;font-family:'Open Sans',sans-serif;outline:none}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--green-600)}
+.map-placeholder{background:var(--green-200);border-radius:8px;height:200px;display:flex;align-items:center;justify-content:center;color:var(--green-800);font-size:13px;font-weight:600;margin-top:20px;border:1px dashed var(--green-400)}
+
+/* ABOUT */
+.about-banner{background:linear-gradient(rgba(27,67,50,.85),rgba(13,43,30,.9)),url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1400&q=80') center/cover;padding:72px 48px;color:#fff;text-align:center}
+.about-banner h1{font-size:46px;margin-bottom:14px}
+.about-content{padding:72px 48px;background:#fff}
+.about-text{max-width:760px;margin:0 auto;text-align:center}
+.about-text p{font-size:16px;line-height:1.9;color:#555;margin-bottom:20px}
+.mvv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding:0 48px 72px;background:#fff}
+.mvv-card{border-radius:12px;padding:32px 24px;text-align:center}
+.mvv-card.missao{background:var(--green-50);border:1px solid var(--green-200)}
+.mvv-card.visao{background:#FFF8E7;border:1px solid #FFE082}
+.mvv-card.valores{background:#F3F0FF;border:1px solid #C5B8FF}
+.mvv-card h3{font-size:20px;margin-bottom:12px}
+.mvv-card.missao h3{color:var(--green-800)}
+.mvv-card.visao h3{color:#7B5C00}
+.mvv-card.valores h3{color:#4A2E8C}
+.mvv-card p{font-size:14px;line-height:1.7;color:#666}
+.mvv-icon{font-size:38px;margin-bottom:16px}
+.team-section{background:var(--beige);padding:72px 48px}
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.team-card{background:#fff;border-radius:12px;padding:24px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.07)}
+.team-avatar{width:72px;height:72px;border-radius:50%;background:var(--green-200);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:26px;font-weight:700;color:var(--green-800);font-family:'Playfair Display',serif}
+.team-card h4{font-size:16px;color:var(--green-800);margin-bottom:4px}
+.team-card span{font-size:13px;color:#888}
+.numbers-section{background:var(--green-800);padding:64px 48px}
+.numbers-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center}
+.number-item .num{font-size:48px;font-family:'Playfair Display',serif;color:var(--gold-light);font-weight:700}
+.number-item p{color:rgba(255,255,255,.8);font-size:14px;margin-top:6px}
+
+/* CONTACT */
+.contact-layout{display:grid;grid-template-columns:1fr 1fr;gap:40px;padding:72px 48px;background:var(--gray-light)}
+.contact-form-card{background:#fff;border-radius:12px;padding:36px;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.contact-form-card h2{font-size:28px;color:var(--green-800);margin-bottom:8px}
+.contact-form-card p{font-size:14px;color:#888;margin-bottom:28px}
+.contact-info-card{background:#fff;border-radius:12px;padding:36px;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.contact-info-card h2{font-size:28px;color:var(--green-800);margin-bottom:24px}
+.info-item{display:flex;align-items:flex-start;gap:14px;margin-bottom:22px}
+.info-icon{width:42px;height:42px;background:var(--green-100);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px}
+.info-item h4{font-size:14px;color:var(--green-800);margin-bottom:3px;font-family:'Raleway',sans-serif;font-weight:600}
+.info-item p{font-size:14px;color:#666}
+.faq-section{padding:72px 48px;background:#fff}
+.faq-section h2{font-size:32px;color:var(--green-800);margin-bottom:32px;text-align:center}
+.faq-item{border:1px solid #eee;border-radius:8px;margin-bottom:12px;overflow:hidden}
+.faq-q{padding:18px 22px;font-family:'Raleway',sans-serif;font-weight:600;font-size:15px;color:var(--green-800);cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.faq-q:hover{background:var(--green-50)}
+.faq-a{padding:0 22px 18px;font-size:14px;line-height:1.8;color:#666;display:none}
+.faq-a.open{display:block}
+.faq-item.open .faq-q{background:var(--green-50)}
+
+/* FOOTER */
+footer{background:var(--green-900);padding:48px;color:rgba(255,255,255,.8)}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+.footer-brand .logo{font-size:22px;display:block;margin-bottom:12px}
+.footer-brand p{font-size:13px;line-height:1.8;opacity:.7}
+.footer-col h4{font-family:'Raleway',sans-serif;font-size:13px;font-weight:700;color:#fff;margin-bottom:14px;text-transform:uppercase;letter-spacing:.5px}
+.footer-col a{display:block;font-size:13px;color:rgba(255,255,255,.6);text-decoration:none;margin-bottom:8px;cursor:pointer;transition:.2s}
+.footer-col a:hover{color:#fff}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding-top:24px;display:flex;justify-content:space-between;font-size:12px;opacity:.6}
+
+/* WHATSAPP FLOAT */
+.wa-float{position:fixed;bottom:28px;right:28px;width:56px;height:56px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(37,211,102,.5);z-index:999;font-size:26px;transition:.2s}
+.wa-float:hover{transform:scale(1.1)}
+</style>
+
+
+
+<!-- TABS -->
+<div class="screen-tabs">
+  <div class="screen-tab active" onclick="showScreen('home',this)">🏠 Home</div>
+  <div class="screen-tab" onclick="showScreen('catalog',this)">🗂 Catálogo</div>
+  <div class="screen-tab" onclick="showScreen('detail',this)">📍 Terreno Individual</div>
+  <div class="screen-tab" onclick="showScreen('about',this)">🌿 Sobre Nós</div>
+  <div class="screen-tab" onclick="showScreen('contact',this)">📬 Contato</div>
+</div>
+
+<!-- NAV (shared) -->
+<nav>
+  <div class="logo">Terra<span>Nova</span></div>
+  <ul class="nav-links">
+    <li><a onclick="showScreen('home',null)">Home</a></li>
+    <li><a onclick="showScreen('catalog',null)">Terrenos</a></li>
+    <li><a onclick="showScreen('about',null)">Sobre Nós</a></li>
+    <li><a onclick="showScreen('contact',null)">Contato</a></li>
+  </ul>
+  <button class="nav-cta">Entrar</button>
+</nav>
+
+<!-- ===== SCREEN 1: HOME ===== -->
+<div id="screen-home" class="screen active">
+  <div class="hero">
+    <h1>Invista em <span>Terra</span>,<br>Invista no Futuro</h1>
+    <p>A plataforma mais completa para comprar e investir em terrenos em todo o Brasil. Segurança, transparência e valorização garantida.</p>
+    <div class="search-bar">
+      <select><option>Estado</option><option>Minas Gerais</option><option>São Paulo</option><option>Goiás</option><option>Mato Grosso</option></select>
+      <select><option>Cidade</option><option>Uberlândia</option><option>Uberaba</option><option>Patos de Minas</option></select>
+      <select><option>Faixa de preço</option><option>Até R$100k</option><option>R$100k–300k</option><option>R$300k–600k</option><option>Acima de R$600k</option></select>
+      <button class="btn-primary">Buscar</button>
+    </div>
+    <small style="opacity:.6;font-size:13px">Mais de 1.200 terrenos disponíveis no Brasil</small>
+  </div>
+
+  <div class="section" style="background:#fff">
+    <h2 class="section-title">Terrenos em Destaque</h2>
+    <p class="section-sub">Oportunidades selecionadas com alto potencial de valorização</p>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-img" style="background:#B7E4C7;font-size:14px;color:#2D6A4F;font-weight:600;flex-direction:column;gap:6px">
+          <span style="font-size:48px">🌿</span>Terreno Rural — Uberlândia
+        </div>
+        <div class="card-body">
+          <div class="card-location">📍 Uberlândia, MG</div>
+          <div class="card-title">Sítio Serra Verde</div>
+          <p style="font-size:13px;color:#888;line-height:1.6">Terreno rural plano com acesso asfaltado, documentação regularizada e alta liquidez.</p>
+          <div class="card-info">
+            <div>
+              <div class="card-price">R$ 280.000</div>
+              <div class="card-area">15.000 m²</div>
+            </div>
+            <button class="btn-primary" style="padding:8px 18px;font-size:13px" onclick="showScreen('detail',null)">Ver detalhes</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-img" style="background:#FFE082;font-size:14px;color:#7B5C00;font-weight:600;flex-direction:column;gap:6px">
+          <span style="font-size:48px">🏡</span>Lote Urbano — Uberaba
+        </div>
+        <div class="card-body">
+          <div class="card-location">📍 Uberaba, MG</div>
+          <div class="card-title">Lote Jardim das Acácias</div>
+          <p style="font-size:13px;color:#888;line-height:1.6">Lote residencial em condomínio fechado, infraestrutura completa e localização privilegiada.</p>
+          <div class="card-info">
+            <div>
+              <div class="card-price">R$ 95.000</div>
+              <div class="card-area">450 m²</div>
+            </div>
+            <button class="btn-primary" style="padding:8px 18px;font-size:13px" onclick="showScreen('detail',null)">Ver detalhes</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-img" style="background:#D0F0C0;font-size:14px;color:#1B4332;font-weight:600;flex-direction:column;gap:6px">
+          <span style="font-size:48px">🌾</span>Área Comercial — Goiânia
+        </div>
+        <div class="card-body">
+          <div class="card-location">📍 Goiânia, GO</div>
+          <div class="card-title">Área Empresarial Norte</div>
+          <p style="font-size:13px;color:#888;line-height:1.6">Área para desenvolvimento comercial ou industrial, próximo à BR-153, ótima visibilidade.</p>
+          <div class="card-info">
+            <div>
+              <div class="card-price">R$ 520.000</div>
+              <div class="card-area">3.200 m²</div>
+            </div>
+            <button class="btn-primary" style="padding:8px 18px;font-size:13px" onclick="showScreen('detail',null)">Ver detalhes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:36px">
+      <button class="btn-secondary" onclick="showScreen('catalog',null)">Ver todos os terrenos →</button>
+    </div>
+  </div>
+
+  <div class="benefits">
+    <div class="benefit">
+      <div class="benefit-icon">📈</div>
+      <h3>Valorização Garantida</h3>
+      <p>Terrenos no Brasil valorizam em média 12% ao ano, superando a inflação e rendimentos tradicionais de investimento.</p>
+    </div>
+    <div class="benefit">
+      <div class="benefit-icon">🛡️</div>
+      <h3>Segurança Jurídica</h3>
+      <p>Todos os terrenos passam por análise documental completa. Compramos apenas imóveis com escritura e matrícula regularizadas.</p>
+    </div>
+    <div class="benefit">
+      <div class="benefit-icon">💰</div>
+      <h3>Patrimônio Real</h3>
+      <p>Terra é um ativo tangível que não desaparece. Invista em algo concreto que você pode ver, visitar e deixar como herança.</p>
+    </div>
+  </div>
+
+  <div class="testimonials">
+    <h2 class="section-title">O que nossos clientes dizem</h2>
+    <p class="section-sub">Mais de 800 clientes satisfeitos em todo o Brasil</p>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p>"Comprei meu terreno pela TerraNova em 2023 e já valorizou 28%. A plataforma é simples, segura e o atendimento é excelente."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">CM</div>
+          <div><div class="testi-name">Carlos Mendes</div><div class="testi-city">Uberlândia, MG</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p>"Nunca imaginei que investir em terreno seria tão fácil. O simulador me ajudou muito a entender a rentabilidade antes de comprar."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">AF</div>
+          <div><div class="testi-name">Ana Figueiredo</div><div class="testi-city">Goiânia, GO</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p>"Documentação impecável, equipe atenciosa e terreno exatamente como mostrado nas fotos. Recomendo a todos meus amigos."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">RP</div>
+          <div><div class="testi-name">Roberto Peixoto</div><div class="testi-city">São Paulo, SP</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="logo">Terra<span style="color:var(--gold-light)">Nova</span></span>
+        <p>A plataforma digital líder em compra e investimento de terrenos no Brasil. Segurança, transparência e valorização.</p>
+      </div>
+      <div class="footer-col"><h4>Terrenos</h4><a>Lotes Urbanos</a><a>Sítios e Chácaras</a><a>Áreas Comerciais</a><a>Áreas Rurais</a></div>
+      <div class="footer-col"><h4>Empresa</h4><a onclick="showScreen('about',null)">Sobre Nós</a><a>Blog</a><a>Carreiras</a><a onclick="showScreen('contact',null)">Contato</a></div>
+      <div class="footer-col"><h4>Suporte</h4><a>Central de Ajuda</a><a>Termos de Uso</a><a>Privacidade</a><a>Segurança</a></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 TerraNova. Todos os direitos reservados.</span>
+      <span>CRECI/MG 00.000-J</span>
+    </div>
+  </footer>
+</div>
+
+<!-- ===== SCREEN 2: CATALOG ===== -->
+<div id="screen-catalog" class="screen">
+  <div class="catalog-header">
+    <h2>Catálogo de Terrenos</h2>
+    <p style="opacity:.8;font-size:15px;margin-top:6px">Encontre o terreno ideal para você</p>
+  </div>
+  <div class="filter-bar">
+    <strong style="font-size:14px;color:#444;margin-right:4px">Filtros:</strong>
+    <select><option>Estado</option><option>Minas Gerais</option><option>São Paulo</option><option>Goiás</option></select>
+    <select><option>Tipo</option><option>Lote Urbano</option><option>Rural</option><option>Comercial</option></select>
+    <input type="text" placeholder="Área mín. (m²)" style="width:130px">
+    <input type="text" placeholder="Área máx. (m²)" style="width:130px">
+    <select><option>Preço máx.</option><option>R$100k</option><option>R$300k</option><option>R$600k</option><option>R$1M+</option></select>
+    <button class="btn-primary" style="margin-left:auto">Filtrar</button>
+    <button class="btn-secondary">Limpar</button>
+  </div>
+  <div style="padding:20px 48px 0;background:var(--gray-light);font-size:14px;color:#888">Exibindo <strong style="color:var(--gray)">18 terrenos</strong></div>
+  <div class="catalog-grid">
+    <!-- 6 cards -->
+    <div class="card" onclick="showScreen('detail',null)" style="cursor:pointer">
+      <div class="card-img" style="background:#B7E4C7;font-size:48px;align-items:center;justify-content:center">🌿</div>
+      <div class="card-body"><div class="card-location">📍 Uberlândia, MG</div><div class="card-title">Sítio Serra Verde</div><div class="card-info"><div><div class="card-price">R$ 280.000</div><div class="card-area">15.000 m²</div></div><span class="tag tag-green">Rural</span></div></div>
+    </div>
+    <div class="card" onclick="showScreen('detail',null)" style="cursor:pointer">
+      <div class="card-img" style="background:#FFE082;font-size:48px">🏡</div>
+      <div class="card-body"><div class="card-location">📍 Uberaba, MG</div><div class="card-title">Lote Jardim das Acácias</div><div class="card-info"><div><div class="card-price">R$ 95.000</div><div class="card-area">450 m²</div></div><span class="tag tag-gold">Urbano</span></div></div>
+    </div>
+    <div class="card" onclick="showScreen('detail',null)" style="cursor:pointer">
+      <div class="card-img" style="background:#D0F0C0;font-size:48px">🌾</div>
+      <div class="card-body"><div class="card-location">📍 Goiânia, GO</div><div class="card-title">Área Empresarial Norte</div><div class="card-info"><div><div class="card-price">R$ 520.000</div><div class="card-area">3.200 m²</div></div><span class="tag tag-green">Comercial</span></div></div>
+    </div>
+    <div class="card" onclick="showScreen('detail',null)" style="cursor:pointer">
+      <div class="card-img" style="background:#C5E8D0;font-size:48px">🏕️</div>
+      <div class="card-body"><div class="card-location">📍 Patos de Minas, MG</div><div class="card-title">Chácara Boa Vista</div><div class="card-info"><div><div class="card-price">R$ 175.000</div><div class="card-area">8.500 m²</div></div><span class="tag tag-green">Rural</span></div></div>
+    </div>
+    <div class="card" onclick="showScreen('detail',null)" style="cursor:pointer">
+      <div class="card-img" style="background:#E8D5F5;font-size:48px">🏢</div>
+      <div class="card-body"><div class="card-location">📍 Ribeirão Preto, SP</div><div class="card-title">Lote Centro Empresarial</div><div class="card-info"><div><div class="card-price">R$ 420.000</div><div class="card-area">1.100 m²</div></div><span class="tag tag-gold">Comercial</span></div></div>
+    </div>
+    <div class="card" onclick="showScreen('detail',null)" style="cursor:pointer">
+      <div class="card-img" style="background:#D4EAF5;font-size:48px">🌲</div>
+      <div class="card-body"><div class="card-location">📍 Araguari, MG</div><div class="card-title">Terreno Beira do Córrego</div><div class="card-info"><div><div class="card-price">R$ 140.000</div><div class="card-area">6.000 m²</div></div><span class="tag tag-green">Rural</span></div></div>
+    </div>
+  </div>
+  <div class="pagination">
+    <button class="page-btn active">1</button>
+    <button class="page-btn">2</button>
+    <button class="page-btn">3</button>
+    <button class="page-btn">→</button>
+  </div>
+  <footer>
+    <div class="footer-bottom" style="border-top:none;padding-top:0">
+      <span>© 2025 TerraNova. Todos os direitos reservados.</span>
+    </div>
+  </footer>
+</div>
+
+<!-- ===== SCREEN 3: DETAIL ===== -->
+<div id="screen-detail" class="screen">
+  <div class="detail-layout">
+    <div class="detail-main">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px">
+        <a onclick="showScreen('catalog',null)" style="color:var(--green-700);cursor:pointer;font-size:14px">← Voltar ao Catálogo</a>
+        <span style="color:#ccc">/</span>
+        <span style="font-size:14px;color:#888">Sítio Serra Verde</span>
+      </div>
+      <div class="gallery">
+        <div class="gallery-main" style="background:#B7E4C7;font-size:72px;display:flex;align-items:center;justify-content:center">🌿</div>
+        <div class="gallery-thumbs">
+          <div class="thumb" style="background:#B7E4C7;display:flex;align-items:center;justify-content:center;font-size:22px">🌿</div>
+          <div class="thumb" style="background:#D0F0C0;display:flex;align-items:center;justify-content:center;font-size:22px">🌾</div>
+          <div class="thumb" style="background:#C5E8D0;display:flex;align-items:center;justify-content:center;font-size:22px">🏕️</div>
+          <div class="thumb" style="background:#B7E4C7;display:flex;align-items:center;justify-content:center;font-size:22px">🌲</div>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap">
+          <span class="tag tag-green">Rural</span>
+          <span class="tag" style="background:#e3f2fd;color:#1565c0">Documentado</span>
+          <span class="tag" style="background:#fff3e0;color:#e65100">Destaque</span>
+        </div>
+        <h3 style="font-size:28px;color:var(--green-800);margin-bottom:8px">Sítio Serra Verde</h3>
+        <p style="color:#888;font-size:14px;margin-bottom:20px">📍 Estrada Municipal km 14, Uberlândia — MG</p>
+        <p style="font-size:15px;line-height:1.8;color:#555">Terreno rural de 15.000 m² com topografia plana, solo fértil de excelente qualidade, nascente natural no canto nordeste da propriedade. Acesso por estrada asfaltada, energia elétrica disponível no limite da propriedade. Documentação 100% regularizada com escritura pública e matrícula limpa no cartório.</p>
+        <div class="detail-grid" style="margin-top:24px">
+          <div class="detail-item"><label>Área Total</label><span>15.000 m²</span></div>
+          <div class="detail-item"><label>Preço/m²</label><span>R$ 18,67/m²</span></div>
+          <div class="detail-item"><label>Zoneamento</label><span>Zona Rural — ZR-1</span></div>
+          <div class="detail-item"><label>Tipo de Solo</label><span>Latossolo Vermelho</span></div>
+          <div class="detail-item"><label>Testada</label><span>80 metros</span></div>
+          <div class="detail-item"><label>Escritura</label><span>✅ Regularizada</span></div>
+        </div>
+      </div>
+
+      <div class="simulator">
+        <h3>💰 Simulador de Investimento</h3>
+        <p style="font-size:13px;color:#888;margin-bottom:18px">Veja quanto seu investimento pode valer no futuro</p>
+        <div class="detail-grid">
+          <div class="sim-input"><label>Valor do terreno (R$)</label><input type="number" value="280000" id="simVal" oninput="calcSim()"></div>
+          <div class="sim-input"><label>Valorização anual estimada (%)</label><input type="number" value="12" id="simRate" oninput="calcSim()"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:10px">
+          <div class="sim-result"><div class="value" id="sim5">R$ 493.370</div><small>Valor estimado em 5 anos</small></div>
+          <div class="sim-result"><div class="value" id="sim10">R$ 869.064</div><small>Valor estimado em 10 anos</small></div>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <h3>📍 Localização no Mapa</h3>
+        <div class="map-placeholder">🗺️ &nbsp; Mapa do Google Maps — Uberlândia, MG</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="sidebar-card" style="position:sticky;top:80px">
+        <div class="sidebar-price">R$ 280.000</div>
+        <div style="font-size:13px;color:#888;margin-bottom:20px">ou em até 60x de R$ 4.666/mês</div>
+        <hr style="margin-bottom:20px;border:none;border-top:1px solid #f0f0f0">
+        <h3>Tenho Interesse</h3>
+        <p style="font-size:13px;color:#888;margin-bottom:18px">Preencha o formulário e entraremos em contato em até 2 horas úteis.</p>
+        <div class="form-group"><label>Nome completo</label><input type="text" placeholder="Seu nome"></div>
+        <div class="form-group"><label>E-mail</label><input type="email" placeholder="seu@email.com"></div>
+        <div class="form-group"><label>WhatsApp</label><input type="text" placeholder="(34) 9 0000-0000"></div>
+        <div class="form-group"><label>Mensagem</label><textarea rows="3" placeholder="Conte-nos mais sobre seu interesse..."></textarea></div>
+        <button class="btn-primary" style="width:100%;margin-bottom:10px">Enviar interesse</button>
+        <button style="width:100%;padding:12px;background:#25D366;color:#fff;border:none;border-radius:6px;font-family:'Raleway',sans-serif;font-weight:600;font-size:15px;cursor:pointer">💬 Chamar no WhatsApp</button>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-bottom" style="border-top:none;padding-top:0">
+      <span>© 2025 TerraNova. Todos os direitos reservados.</span>
+    </div>
+  </footer>
+</div>
+
+<!-- ===== SCREEN 4: ABOUT ===== -->
+<div id="screen-about" class="screen">
+  <div class="about-banner">
+    <h1>Quem Somos</h1>
+    <p style="font-size:17px;opacity:.85;max-width:560px;margin:0 auto;line-height:1.7">A TerraNova nasceu para democratizar o acesso ao investimento em terrenos no Brasil</p>
+  </div>
+
+  <div class="about-content">
+    <div class="about-text">
+      <h2 style="font-size:28px;color:var(--green-800);margin-bottom:20px">Nossa História</h2>
+      <p>Fundada em 2019, a TerraNova surgiu da percepção de que o mercado de terrenos no Brasil era fragmentado, pouco transparente e inacessível para a maioria dos brasileiros. Nossa missão é mudar isso.</p>
+      <p>Em apenas 6 anos, nos tornamos uma das principais plataformas digitais de compra e investimento em terrenos do país, com atuação em 15 estados e mais de 800 negócios realizados com sucesso.</p>
+      <p>Unimos tecnologia, análise de dados e expertise imobiliária para oferecer a melhor experiência de compra de terrenos — do primeiro acesso até a assinatura da escritura.</p>
+    </div>
+  </div>
+
+  <div class="mvv-grid">
+    <div class="mvv-card missao">
+      <div class="mvv-icon">🎯</div>
+      <h3>Missão</h3>
+      <p>Democratizar o acesso ao investimento em terrenos no Brasil, oferecendo uma plataforma digital segura, transparente e acessível para todos os brasileiros.</p>
+    </div>
+    <div class="mvv-card visao">
+      <div class="mvv-icon">🔭</div>
+      <h3>Visão</h3>
+      <p>Ser a maior e mais confiável plataforma de negociação de terrenos da América Latina até 2030, presente em todos os estados brasileiros.</p>
+    </div>
+    <div class="mvv-card valores">
+      <div class="mvv-icon">💎</div>
+      <h3>Valores</h3>
+      <p>Transparência total em todas as negociações. Segurança jurídica garantida. Respeito ao cliente. Inovação constante. Sustentabilidade ambiental.</p>
+    </div>
+  </div>
+
+  <div class="team-section">
+    <h2 class="section-title" style="text-align:center;margin-bottom:8px">Nossa Equipe</h2>
+    <p class="section-sub" style="text-align:center">Profissionais apaixonados por terra e tecnologia</p>
+    <div class="team-grid">
+      <div class="team-card"><div class="team-avatar">JG</div><h4>João Gabriel</h4><span>Co-fundador &amp; CEO</span></div>
+      <div class="team-card"><div class="team-avatar">LF</div><h4>Luis Felipe</h4><span>Co-fundador &amp; Diretor</span></div>
+    </div>
+  </div>
+
+  <div class="numbers-section">
+    <h2 style="text-align:center;color:#fff;margin-bottom:48px;font-size:32px">TerraNova em números</h2>
+    <div class="numbers-grid">
+      <div class="number-item"><div class="num">800+</div><p>Terrenos vendidos</p></div>
+      <div class="number-item"><div class="num">1.200</div><p>Terrenos disponíveis</p></div>
+      <div class="number-item"><div class="num">15</div><p>Estados atendidos</p></div>
+      <div class="number-item"><div class="num">6 anos</div><p>de mercado</p></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand"><span class="logo">Terra<span style="color:var(--gold-light)">Nova</span></span><p>A plataforma digital líder em compra e investimento de terrenos no Brasil.</p></div>
+      <div class="footer-col"><h4>Terrenos</h4><a>Lotes Urbanos</a><a>Sítios e Chácaras</a><a>Áreas Comerciais</a></div>
+      <div class="footer-col"><h4>Empresa</h4><a>Sobre Nós</a><a>Blog</a><a onclick="showScreen('contact',null)">Contato</a></div>
+      <div class="footer-col"><h4>Suporte</h4><a>Central de Ajuda</a><a>Privacidade</a></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 TerraNova.</span></div>
+  </footer>
+</div>
+
+<!-- ===== SCREEN 5: CONTACT ===== -->
+<div id="screen-contact" class="screen">
+  <div class="catalog-header">
+    <h2>Fale Conosco</h2>
+    <p style="opacity:.8;font-size:15px;margin-top:6px">Estamos prontos para te atender</p>
+  </div>
+
+  <div class="contact-layout">
+    <div class="contact-form-card">
+      <h2>Envie uma mensagem</h2>
+      <p>Responderemos em até 2 horas úteis.</p>
+      <div class="form-group"><label>Nome completo *</label><input type="text" placeholder="Seu nome completo"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="form-group"><label>E-mail *</label><input type="email" placeholder="seu@email.com"></div>
+        <div class="form-group"><label>Telefone</label><input type="text" placeholder="(00) 00000-0000"></div>
+      </div>
+      <div class="form-group"><label>Assunto</label>
+        <select style="width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:6px;font-size:14px;color:var(--gray)">
+          <option>Quero comprar um terreno</option>
+          <option>Quero anunciar meu terreno</option>
+          <option>Dúvida sobre documentação</option>
+          <option>Outro assunto</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Mensagem *</label><textarea rows="5" placeholder="Descreva como podemos te ajudar..."></textarea></div>
+      <button class="btn-primary" style="width:100%">Enviar mensagem</button>
+    </div>
+
+    <div>
+      <div class="contact-info-card" style="margin-bottom:24px">
+        <h2>Informações de Contato</h2>
+        <div class="info-item"><div class="info-icon">📍</div><div><h4>Endereço</h4><p>Av. Rondon Pacheco, 4600 — sala 1201<br>Uberlândia, MG — CEP 38405-142</p></div></div>
+        <div class="info-item"><div class="info-icon">📞</div><div><h4>Telefone</h4><p>(34) 3201-5800</p></div></div>
+        <div class="info-item"><div class="info-icon">✉️</div><div><h4>E-mail</h4><p>contato@terranova.com.br</p></div></div>
+        <div class="info-item"><div class="info-icon">🕐</div><div><h4>Horário de atendimento</h4><p>Seg–Sex: 8h às 18h<br>Sáb: 9h às 13h</p></div></div>
+        <button style="width:100%;padding:12px;background:#25D366;color:#fff;border:none;border-radius:6px;font-family:'Raleway',sans-serif;font-weight:600;font-size:15px;cursor:pointer;margin-top:8px">💬 WhatsApp: (34) 9 9999-0000</button>
+      </div>
+
+      <div class="map-placeholder" style="height:180px;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.08)">
+        🗺️ &nbsp; Mapa — Uberlândia, MG
+      </div>
+    </div>
+  </div>
+
+  <div class="faq-section">
+    <h2>Perguntas Frequentes</h2>
+    <div style="max-width:800px;margin:0 auto">
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">Como funciona o processo de compra de um terreno? <span>▼</span></div>
+        <div class="faq-a">O processo é simples: você escolhe o terreno na plataforma, entra em contato com nossa equipe, realizamos a análise documental completa e, após aprovação, assinamos a escritura pública em cartório. Todo o processo leva em média 15 a 30 dias úteis.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">Os documentos dos terrenos são verificados? <span>▼</span></div>
+        <div class="faq-a">Sim! Todos os terrenos passam por uma análise jurídica completa antes de serem anunciados na plataforma. Verificamos matrícula, escritura, CCIR, ITR, situação no CAR e todas as certidões negativas necessárias.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">Posso financiar a compra de um terreno? <span>▼</span></div>
+        <div class="faq-a">Sim! Trabalhamos com financiamento direto com a proprietária em até 60 parcelas, além de parceria com bancos para crédito rural (PRONAF) e financiamento imobiliário. Nossa equipe pode te orientar sobre a melhor opção.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">Quais são as taxas e comissões cobradas? <span>▼</span></div>
+        <div class="faq-a">Para o comprador, não cobramos nenhuma taxa de cadastro ou consulta. Nossa comissão de corretagem é de 6%, conforme tabela CRECI, e já está incluída no preço anunciado. Não há surpresas.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">Posso visitar o terreno antes de comprar? <span>▼</span></div>
+        <div class="faq-a">Com certeza! Incentivamos sempre a visita presencial antes da compra. Nossa equipe pode agendar uma visita acompanhada com um corretor credenciado na região do terreno desejado. Entre em contato para agendar.</div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand"><span class="logo">Terra<span style="color:var(--gold-light)">Nova</span></span><p>A plataforma digital líder em compra e investimento de terrenos no Brasil.</p></div>
+      <div class="footer-col"><h4>Terrenos</h4><a>Lotes Urbanos</a><a>Sítios e Chácaras</a><a>Áreas Comerciais</a></div>
+      <div class="footer-col"><h4>Empresa</h4><a>Sobre Nós</a><a>Blog</a><a>Contato</a></div>
+      <div class="footer-col"><h4>Suporte</h4><a>Central de Ajuda</a><a>Privacidade</a></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 TerraNova.</span></div>
+  </footer>
+</div>
+
+<!-- WHATSAPP FLOAT -->
+<div class="wa-float" title="WhatsApp">💬</div>
+
+<script>
+function showScreen(id, tabEl){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+id).classList.add('active');
+  document.querySelectorAll('.screen-tab').forEach(t=>t.classList.remove('active'));
+  if(tabEl) tabEl.classList.add('active');
+  else {
+    const tabs = {home:0,catalog:1,detail:2,about:3,contact:4};
+    document.querySelectorAll('.screen-tab')[tabs[id]].classList.add('active');
+  }
+  window.scrollTo(0,0);
+}
+
+function calcSim(){
+  const val = parseFloat(document.getElementById('simVal').value)||280000;
+  const rate = parseFloat(document.getElementById('simRate').value)/100||0.12;
+  const v5 = Math.round(val*Math.pow(1+rate,5));
+  const v10 = Math.round(val*Math.pow(1+rate,10));
+  document.getElementById('sim5').textContent = 'R$ '+v5.toLocaleString('pt-BR');
+  document.getElementById('sim10').textContent = 'R$ '+v10.toLocaleString('pt-BR');
+}
+
+function toggleFaq(el){
+  const a = el.querySelector('.faq-a');
+  const isOpen = el.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(f=>{f.classList.remove('open');f.querySelector('.faq-a').classList.remove('open');});
+  if(!isOpen){el.classList.add('open');a.classList.add('open');}
+}
+</script>
